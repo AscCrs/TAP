@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 
 /**
  *
- * @author alemr
+ * @author AscCrs
  */
 public class practica2 extends javax.swing.JFrame {
 

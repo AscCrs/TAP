@@ -255,7 +255,7 @@ public class practica6 extends javax.swing.JFrame {
         String sHoras = "0";
         
         if (this.jRadioButton2.isSelected()) sSisOper = "Linux";
-        if (this.jRadioButton2.isSelected()) sSisOper = "Mac";
+        if (this.jRadioButton3.isSelected()) sSisOper = "Mac";
         
         if (this.jCheckBox1.isSelected()) sProg = "S";
         if (this.jCheckBox2.isSelected()) sDiseno = "S";

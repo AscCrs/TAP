@@ -4,11 +4,18 @@
  */
 package Practicas;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,6 +37,50 @@ public class Practica7 extends javax.swing.JFrame {
         } catch(Exception ex) {
             System.out.println("Error " + ex.getMessage());
         }
+        this.selectBD();
+        this.jTable1.getSelectionModel().addListSelectionListener(
+            new ListSelectionListener(){
+                @Override
+                public void valueChanged(ListSelectionEvent e){
+                    int nId = 0;
+                    int nRow = jTable1.getSelectedRow();
+
+                    String sSisOper = (String) jTable1.getModel().getValueAt(nRow, 1);
+                    if(sSisOper.equals("Windows")){
+                        jRadioButton1.setSelected(true);
+                    }
+                    if(sSisOper.equals("Linux")){
+                        jRadioButton2.setSelected(true);
+                    }
+                    if(sSisOper.equals("Linux")){
+                        jRadioButton3.setSelected(true);
+                    }
+                    
+                    if(jTable1.getModel().getValueAt(nRow, 2).equals("S")){
+                        jCheckBox1.setSelected(true);
+                    }
+                    else{
+                        jCheckBox1.setSelected(false);
+                    }
+                    
+                    if(jTable1.getModel().getValueAt(nRow, 3).equals("S")){
+                        jCheckBox2.setSelected(true);
+                    }
+                    else{
+                        jCheckBox2.setSelected(false);
+                    }
+                    if(jTable1.getModel().getValueAt(nRow, 4).equals("S")){
+                        jCheckBox3.setSelected(true);
+                    }
+                    else{
+                        jCheckBox3.setSelected(false);
+                    }
+                    jSlider1.setValue((int) jTable1.getModel().getValueAt(nRow, 1));
+
+                }
+            }
+        );
+
     }
 
     /**
@@ -41,9 +92,22 @@ public class Practica7 extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        buttonGroup1 = new javax.swing.ButtonGroup();
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jRadioButton1 = new javax.swing.JRadioButton();
+        jRadioButton2 = new javax.swing.JRadioButton();
+        jRadioButton3 = new javax.swing.JRadioButton();
+        jCheckBox3 = new javax.swing.JCheckBox();
+        jCheckBox2 = new javax.swing.JCheckBox();
+        jCheckBox1 = new javax.swing.JCheckBox();
+        jLabel3 = new javax.swing.JLabel();
+        jSlider1 = new javax.swing.JSlider();
+        lbHoras = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
+        jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -66,7 +130,7 @@ public class Practica7 extends javax.swing.JFrame {
                 java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, true, false, true
+                false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -78,28 +142,150 @@ public class Practica7 extends javax.swing.JFrame {
             }
         });
         jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(0).setMaxWidth(50);
+            jTable1.getColumnModel().getColumn(5).setPreferredWidth(50);
+            jTable1.getColumnModel().getColumn(5).setMaxWidth(50);
+        }
+
+        buttonGroup1.add(jRadioButton1);
+        jRadioButton1.setSelected(true);
+        jRadioButton1.setText("Windows");
+        jRadioButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jRadioButton1ActionPerformed(evt);
+            }
+        });
+
+        buttonGroup1.add(jRadioButton2);
+        jRadioButton2.setText("Linux");
+
+        buttonGroup1.add(jRadioButton3);
+        jRadioButton3.setText("IOS");
+
+        jCheckBox3.setText("Administración");
+
+        jCheckBox2.setText("Diseño Gráfico");
+        jCheckBox2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox2ActionPerformed(evt);
+            }
+        });
+
+        jCheckBox1.setText("Programacion");
+
+        jLabel3.setText("Horas que dedica al trabajo");
+
+        jSlider1.setValue(0);
+        jSlider1.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                jSlider1StateChanged(evt);
+            }
+        });
+
+        lbHoras.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbHoras.setText("0");
+        lbHoras.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+
+        jButton2.setText("Guardar");
+
+        jButton3.setText("Eliminar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jButton4.setText("Insertar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(376, Short.MAX_VALUE)
-                .addComponent(jButton1)
-                .addGap(43, 43, 43))
-            .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(15, 15, 15)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jScrollPane1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jRadioButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRadioButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jRadioButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jCheckBox1)
+                                    .addComponent(jCheckBox2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(7, 7, 7)
+                                        .addComponent(jLabel3)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbHoras, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jCheckBox3))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGap(0, 1, Short.MAX_VALUE))
+                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(28, 28, 28)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(16, 16, 16)
+                        .addComponent(jButton1)
+                        .addGap(8, 8, 8)
+                        .addComponent(jButton2)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jButton4)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 14, Short.MAX_VALUE)
+                        .addComponent(jButton3)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(32, 32, 32)
+                                .addComponent(jLabel3)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jSlider1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lbHoras)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jRadioButton1)
+                                    .addComponent(jCheckBox1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jRadioButton2)
+                                    .addComponent(jCheckBox2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jRadioButton3)
+                                    .addComponent(jCheckBox3))))
+                        .addGap(24, 24, 24)))
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(25, Short.MAX_VALUE))
+                .addGap(16, 16, 16))
         );
 
         pack();
@@ -109,6 +295,56 @@ public class Practica7 extends javax.swing.JFrame {
         // TODO add your handling code here:
         this.selectBD();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jRadioButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jRadioButton1ActionPerformed
+
+    private void jCheckBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox2ActionPerformed
+
+    private void jSlider1StateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_jSlider1StateChanged
+        // TODO add your handling code here:
+        this.lbHoras.setText(Integer.toString(this.jSlider1.getValue()));
+    }//GEN-LAST:event_jSlider1StateChanged
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        String sSisOper = "Windows";
+        String sProg = "N";
+        String sDiseno = "N";
+        String sAdmon = "N";
+        int sHoras = this.jSlider1.getValue();
+        
+        if (this.jRadioButton2.isSelected()) sSisOper = "Linux";
+        if (this.jRadioButton3.isSelected()) sSisOper = "Mac";
+        
+        if (this.jCheckBox1.isSelected()) sProg = "S";
+        if (this.jCheckBox2.isSelected()) sDiseno = "S";
+        if (this.jCheckBox3.isSelected()) sAdmon = "S";
+        
+       
+        this.insertarBD(sSisOper, sProg, sDiseno, sAdmon, sHoras);
+        this.selectBD();
+    }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        int nId = 0;
+        
+        int nRow = this.jTable1.getSelectedRow();
+        
+        if (nRow < 0) {
+            JOptionPane.showMessageDialog(this, "Seleccione un registro", "Sugerencia", JOptionPane.INFORMATION_MESSAGE);
+            return;
+        } 
+        
+        nId = (int) this.jTable1.getModel().getValueAt(nRow, 0);
+        
+        this.eliminarrBD(nId);
+        this.selectBD();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -146,9 +382,22 @@ public class Practica7 extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBox2;
+    private javax.swing.JCheckBox jCheckBox3;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JRadioButton jRadioButton1;
+    private javax.swing.JRadioButton jRadioButton2;
+    private javax.swing.JRadioButton jRadioButton3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSlider jSlider1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel lbHoras;
     // End of variables declaration//GEN-END:variables
 
     private void selectBD() {
@@ -165,15 +414,59 @@ public class Practica7 extends javax.swing.JFrame {
                 stmt = conn.createStatement();
                 rset = stmt.executeQuery(sQuery);
                 
-                for (int i = 0; i < modelo.getRowCount(); i++) {
-                    modelo.removeRow(i);
-                    i -= 1;
-                }
+                this.modelo.setNumRows(0);
                 
                 while(rset.next()) {
-                    this.modelo.addRow(new Object[]{rset.getInt("id"), rset.getString("sSisOper"), rset.getString("cProgra"),rset.getString("cDiseno"), rset.getString("cAdmon"), rset.getInt("iHoras")});
+                    this.modelo.addRow(new Object[]{rset.getInt("id"), 
+                                                    rset.getString("sSisOper"), 
+                                                    rset.getString("cProgra"),
+                                                    rset.getString("cDiseno"), 
+                                                    rset.getString("cAdmon"), 
+                                                    rset.getInt("iHoras")});
                     System.out.println(rset.getString("sSisOper"));
                 }
+                
+                conn.close();
+                conn = null;
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+    }
+    
+    private void insertarBD(String sSisOper, String sProg, String sDiseno, String sAdmon, int iHoras) {
+        Statement stmt;
+        String sInsert;
+        
+        sInsert = String.format("INSERT INTO respuestas (sSisOper,cProgra,cDiseno,cAdmon,iHoras) VALUES ('%s','%s','%s','%s',%d);", sSisOper, sProg, sDiseno, sAdmon, iHoras);
+        
+        try {
+            if (conn == null) {
+                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/encuesta?"
+                        + "useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=encuesta_user&password=encuesta_pass");
+                stmt = conn.createStatement();
+                stmt.execute(sInsert);
+                
+                conn.close();
+                conn = null;
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+    }
+    
+    private void eliminarrBD(int id) {
+        Statement stmt;
+        String sDelete;
+        
+        sDelete = String.format("DELETE FROM respuestas WHERE id = %d", id);
+        
+        try {
+            if (conn == null) {
+                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/encuesta?"
+                        + "useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=encuesta_user&password=encuesta_pass");
+                stmt = conn.createStatement();
+                stmt.execute(sDelete);
                 
                 conn.close();
                 conn = null;

@@ -4,15 +4,11 @@
  */
 package Practicas;
 
-import java.io.FileWriter;
-import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.ResultSet;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -75,8 +71,9 @@ public class Practica7 extends javax.swing.JFrame {
                     else{
                         jCheckBox3.setSelected(false);
                     }
-                    jSlider1.setValue((int) jTable1.getModel().getValueAt(nRow, 1));
-
+                    jSlider1.setValue((int) jTable1.getModel().getValueAt(nRow, 5));
+                    
+                    lbHoras.setText(Integer.toString((int) jTable1.getModel().getValueAt(nRow, 5)));
                 }
             }
         );
@@ -189,6 +186,11 @@ public class Practica7 extends javax.swing.JFrame {
         lbHoras.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
 
         jButton2.setText("Guardar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jButton3.setText("Eliminar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
@@ -342,9 +344,33 @@ public class Practica7 extends javax.swing.JFrame {
         
         nId = (int) this.jTable1.getModel().getValueAt(nRow, 0);
         
-        this.eliminarrBD(nId);
+        this.eliminarBD(nId);
         this.selectBD();
     }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        int nId = 0;
+        
+        String sSisOper = "Windows";
+        String sProg = "N";
+        String sDiseno = "N";
+        String sAdmon = "N";
+        int sHoras = this.jSlider1.getValue();
+        int nRow = this.jTable1.getSelectedRow();
+        
+        if (this.jRadioButton2.isSelected()) sSisOper = "Linux";
+        if (this.jRadioButton3.isSelected()) sSisOper = "Mac";
+        
+        if (this.jCheckBox1.isSelected()) sProg = "S";
+        if (this.jCheckBox2.isSelected()) sDiseno = "S";
+        if (this.jCheckBox3.isSelected()) sAdmon = "S";
+        
+        nId = (int) this.jTable1.getModel().getValueAt(nRow, 0);
+        
+        this.actualizarBD(nId, sSisOper, sProg, sDiseno, sAdmon, sHoras);
+        this.selectBD();
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -455,7 +481,28 @@ public class Practica7 extends javax.swing.JFrame {
         }
     }
     
-    private void eliminarrBD(int id) {
+    private void actualizarBD(int sId, String sSisOper, String sProg, String sDiseno, String sAdmon, int iHoras) {
+        Statement stmt;
+        String sUpdate;
+        
+        sUpdate = String.format("UPDATE respuestas VALUES ('%s','%s','%s','%s',%d) WHERE [id] = %d;", sSisOper, sProg, sDiseno, sAdmon, iHoras, sId);
+        
+        try {
+            if (conn == null) {
+                conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/encuesta?"
+                        + "useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC&user=encuesta_user&password=encuesta_pass");
+                stmt = conn.createStatement();
+                stmt.execute(sUpdate);
+                
+                conn.close();
+                conn = null;
+            }
+        } catch (SQLException sqle) {
+            System.out.println(sqle.getMessage());
+        }
+    }
+    
+    private void eliminarBD(int id) {
         Statement stmt;
         String sDelete;
         

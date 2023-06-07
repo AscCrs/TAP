@@ -9,7 +9,7 @@ import java.util.Date;
 
 /**
  *
- * @author Laptop HP
+ * @author AscCrs
  */
 public class Reloj extends javax.swing.JFrame {
     Date date;

@@ -9,7 +9,7 @@ import javax.swing.JFrame;
 
 /**
  *
- * @author Laptop HP
+ * @author AscCrs
  */
 public class MyFrame extends JFrame {
     JButton button;

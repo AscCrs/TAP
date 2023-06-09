@@ -5,193 +5,319 @@
 package Multihilos;
 
 import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
+import javax.sound.sampled.*;
 
 
 /**
  *
  * @author AscCrs
  */
-public class Reproductor extends JFrame {
+public class Reproductor extends javax.swing.JFrame {
+
+    private Clip clip;
+    private Timer timer;
     
-    private JButton btnPlay;
-    private JButton btnPause;
-    private JButton btnStop;
-    private JLabel lblStatus;
-    private JProgressBar progressBar;
-    private Clip clip; 
-    private String rutaCancion;  
-    private int posicionPausa;
-    
+    /**
+     * Creates new form Reproductor
+     */
     public Reproductor() {
-        JFileChooser fileChooser = new JFileChooser();
-        int seleccion = fileChooser.showOpenDialog(this);
-        
-        if (seleccion == JFileChooser.APPROVE_OPTION) {
-            rutaCancion = fileChooser.getSelectedFile().getAbsolutePath();
-        }
-        
+        this.setTitle("Reproductor de archivos WAV");
         initComponents();
-        
-        // Configurar la ventana principal
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setTitle("Reproductor de Música/Audio");
-        setSize(400, 200);
-        setLocationRelativeTo(null);
-        setVisible(true);
-    }
-    
-      private void initComponents() {
-        // Configurar la interfaz gráfica
-        btnPlay = new JButton("Abrir");
-        btnPause = new JButton("Pausar");
-        btnStop = new JButton("Continuar");
-        JButton btnRestart = new JButton("Reiniciar"); //
-        lblStatus = new JLabel("Estado: ");
-        progressBar = new JProgressBar();
-        
-        Container contenedor = getContentPane();
-        contenedor.setLayout(new BorderLayout());
-        
-        JPanel panelBotones = new JPanel();
-        panelBotones.add(btnPlay);
-        panelBotones.add(btnPause);
-        panelBotones.add(btnStop);
-        panelBotones.add(btnRestart);
-        
-        contenedor.add(panelBotones, BorderLayout.CENTER);
-        contenedor.add(progressBar, BorderLayout.SOUTH);
-        contenedor.add(lblStatus, BorderLayout.NORTH);
-
-        JPanel panelProgress = new JPanel(new BorderLayout());
-        panelProgress.add(progressBar, BorderLayout.NORTH);
-         contenedor.add(panelProgress, BorderLayout.SOUTH);
-        
-        // Agregar los listeners de eventos a los botones
-        btnPlay.addActionListener((ActionEvent e) -> {
-            reproducir();
-        });
-        btnPause.addActionListener((ActionEvent e) -> {
-            pausar();
-        });
-        
-        btnStop.addActionListener((ActionEvent e) -> {
-            continuar();
-        });
-      
-        btnRestart.addActionListener((ActionEvent e) -> {
-            reiniciar(); // Llamar al método reiniciar al hacer clic en el botón
-        });
-        pack(); 
-        
-    }
-    
-    private void reproducir() {
-        Thread hiloReproduccion = new Thread(() -> {
-            try {
-                File archivoMusica = new File(rutaCancion);
-                AudioInputStream audioStream = AudioSystem.getAudioInputStream(archivoMusica);
-                clip = AudioSystem.getClip();
-                clip.open(audioStream);
-                
-                // Obtener la duración total de la canción en milisegundos
-                int duracionTotal = (int) clip.getMicrosecondLength() / 1000;
-                
-                clip.start();
-                
-                while (clip.isRunning()) {
-                    // Obtener la posición de reproducción actual en milisegundos
-                    int posicionActual = (int) clip.getMicrosecondPosition() / 1000;
-                    
-                    // Calcular el progreso como un porcentaje
-                    int progreso = (int) (((double) posicionActual / duracionTotal) * 100);
-                    
-                    
-                    // Actualizar el valor del progressBar
-                    progressBar.setValue(progreso);
-                    
-                    // Esperar un breve período para evitar una actualización continua excesiva
-                    Thread.sleep(100);
-                }
-                
-                lblStatus.setText("Estado: Reproducción iniciada");
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
-
-        hiloReproduccion.start();
     }
 
-
-    private void pausar() {
-       if (clip != null && clip.isRunning()) {
-            posicionPausa = clip.getFramePosition(); // Guardar la posición de pausa
-            clip.stop();
-            lblStatus.setText("Estado: Reproducción pausado");
-        }
-    }
-
-    private void continuar() {
-        if (clip != null && !clip.isRunning()) { // Comprobar si el clip no se está reproduciendo
-            clip.setFramePosition(posicionPausa); // Establecer la posición de reproducción
-            clip.start();
-            lblStatus.setText("Estado: Reproducción reanudada");
-        }
-    }
-
-    private void reiniciar() {
-        if (clip != null && clip.isRunning()) {
-            clip.stop();
-            clip.setFramePosition(0);
-            clip.start();
-        }
-        lblStatus.setText("Estado: Reproducción reiniciada");
-        progressBar.setValue(0);
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
      * regenerated by the Form Editor.
      */
-     /* @SuppressWarnings("unchecked")
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panel = new javax.swing.JPanel();
+        controlPanel = new javax.swing.JPanel();
+        btnAbrir = new javax.swing.JButton();
+        btnReproducir = new javax.swing.JButton();
+        btnDetener = new javax.swing.JButton();
+        sliderPanel = new javax.swing.JPanel();
+        slider = new javax.swing.JSlider();
+        lblTiempo = new javax.swing.JLabel();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnAbrir.setText("Abrir");
+        btnAbrir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAbrirActionPerformed(evt);
+            }
+        });
+
+        btnReproducir.setText("Reproducir");
+        btnReproducir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReproducirActionPerformed(evt);
+            }
+        });
+
+        btnDetener.setText("Detener");
+        btnDetener.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDetenerActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout controlPanelLayout = new javax.swing.GroupLayout(controlPanel);
+        controlPanel.setLayout(controlPanelLayout);
+        controlPanelLayout.setHorizontalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btnReproducir, javax.swing.GroupLayout.PREFERRED_SIZE, 92, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addComponent(btnDetener, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        controlPanelLayout.setVerticalGroup(
+            controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(controlPanelLayout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addGroup(controlPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAbrir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnReproducir, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnDetener, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(26, Short.MAX_VALUE))
+        );
+
+        slider.setValue(0);
+
+        lblTiempo.setText("00:00 / 00:00");
+
+        javax.swing.GroupLayout sliderPanelLayout = new javax.swing.GroupLayout(sliderPanel);
+        sliderPanel.setLayout(sliderPanelLayout);
+        sliderPanelLayout.setHorizontalGroup(
+            sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sliderPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(slider, javax.swing.GroupLayout.DEFAULT_SIZE, 266, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblTiempo)
+                .addContainerGap())
+        );
+        sliderPanelLayout.setVerticalGroup(
+            sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sliderPanelLayout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addGroup(sliderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblTiempo)
+                    .addComponent(slider, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(25, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout panelLayout = new javax.swing.GroupLayout(panel);
+        panel.setLayout(panelLayout);
+        panelLayout.setHorizontalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(sliderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        panelLayout.setVerticalGroup(
+            panelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelLayout.createSequentialGroup()
+                .addComponent(controlPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(sliderPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnAbrirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbrirActionPerformed
+        // TODO add your handling code here:
+        abrirArchivo();
+    }//GEN-LAST:event_btnAbrirActionPerformed
+
+    private void btnReproducirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReproducirActionPerformed
+        // TODO add your handling code here:
+        reproducir();
+    }//GEN-LAST:event_btnReproducirActionPerformed
+
+    private void btnDetenerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetenerActionPerformed
+        // TODO add your handling code here:
+        detener();
+    }//GEN-LAST:event_btnDetenerActionPerformed
+
+    private void abrirArchivo() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileFilter() {
+            public boolean accept(File file) {
+                return file.getName().toLowerCase().endsWith(".wav") || file.isDirectory();
+            }
+
+            public String getDescription() {
+                return "Archivos de audio (*.wav)";
+            }
+        });
+
+        int option = fileChooser.showOpenDialog(this);
+        if (option == JFileChooser.APPROVE_OPTION) {
+            File file = fileChooser.getSelectedFile();
+            reproducirArchivo(file);
+        }
+    }
+
+    private void reproducirArchivo(File file) {
+        try {
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+            AudioFormat format = audioStream.getFormat();
+            DataLine.Info info = new DataLine.Info(Clip.class, format);
+
+            clip = (Clip) AudioSystem.getLine(info);
+            clip.open(audioStream);
+
+            slider.setMaximum((int) clip.getMicrosecondLength() / 1000);
+            slider.setValue(0);
+            slider.setEnabled(true);
+
+            clip.addLineListener(new LineListener() {
+                public void update(LineEvent event) {
+                    if (event.getType() == LineEvent.Type.STOP) {
+                        btnReproducir.setEnabled(true);
+                        btnDetener.setEnabled(false);
+                        slider.setValue(0);
+                        lblTiempo.setText("00:00 / 00:00");
+                        stopTimer();
+                    }
+                }
+            });
+
+            btnReproducir.setEnabled(true);
+            btnDetener.setEnabled(false);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error al reproducir el archivo", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void reproducir() {
+        if (clip != null && !clip.isActive()) {
+            clip.start();
+            btnReproducir.setEnabled(false);
+            btnDetener.setEnabled(true);
+            startTimer();
+        }
+    }
+
+    private void detener() {
+        if (clip != null) {
+            clip.stop();
+            clip.setMicrosecondPosition(0);
+            btnReproducir.setEnabled(true);
+            btnDetener.setEnabled(false);
+            slider.setValue(0);
+            lblTiempo.setText("00:00 / 00:00");
+            stopTimer();
+        }
+    }
+
+    private void startTimer() {
+        timer = new Timer(100, new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int value = (int) (clip.getMicrosecondPosition() / 1000);
+                int totalValue = (int) (clip.getMicrosecondLength() / 1000);
+                String time = formatTime(value);
+                String totalTime = formatTime (totalValue);
+                lblTiempo.setText(time + " / " + totalTime);
+                slider.setValue(value);
+            }
+        });
+        timer.start();
+    }
+
+    private void stopTimer() {
+        if (timer != null) {
+            timer.stop();
+            timer = null;
+        }
+    }
+
+    private String formatTime(int milliseconds) {
+        int seconds = (milliseconds / 1000) % 60;
+        int minutes = (milliseconds / (1000 * 60)) % 60;
+        return String.format("%02d:%02d", minutes, seconds);
+    }
+    
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Reproductor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Reproductor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Reproductor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Reproductor.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Reproductor();
+                new Reproductor().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAbrir;
+    private javax.swing.JButton btnDetener;
+    private javax.swing.JButton btnReproducir;
+    private javax.swing.JPanel controlPanel;
+    private javax.swing.JLabel lblTiempo;
+    private javax.swing.JPanel panel;
+    private javax.swing.JSlider slider;
+    private javax.swing.JPanel sliderPanel;
     // End of variables declaration//GEN-END:variables
 }

@@ -17,6 +17,7 @@ public class MyFrame extends JFrame implements ActionListener {
     JButton button;
     MyFrame() {
         this.setSize(640, 480);
+        this.setTitle("Practica: Listener metodo 2");
         button = new JButton("Cerrar");
         
         button.addActionListener(this);

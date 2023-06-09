@@ -17,6 +17,7 @@ public class Practica3 extends javax.swing.JFrame {
      * Creates new form Practica3
      */
     public Practica3() {
+        this.setTitle("Practica: Combobox");
         initComponents();
     }
 

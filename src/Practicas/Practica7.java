@@ -25,6 +25,7 @@ public class Practica7 extends javax.swing.JFrame {
      * Creates new form Practica7
      */
     public Practica7() {
+        this.setTitle("Encuesta con registros");
         initComponents();
         modelo = (DefaultTableModel) this.jTable1.getModel();
         

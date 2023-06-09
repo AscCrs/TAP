@@ -17,6 +17,7 @@ public class MyFrame extends JFrame{
     JButton button;
     MyFrame() {
         this.setSize(640, 480);
+        this.setTitle("Practica: Listener Forma 4");
         button = new JButton("Cerrar");
         
         button.addMouseListener(

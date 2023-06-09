@@ -16,6 +16,7 @@ public class Practica1b extends javax.swing.JFrame {
 	 * Creates new form Practica1b
 	 */
 	public Practica1b() {
+                this.setTitle("Saludador");
 		initComponents();
 	}
 

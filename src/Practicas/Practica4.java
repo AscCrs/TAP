@@ -17,6 +17,7 @@ public class Practica4 extends javax.swing.JFrame {
      * Creates new form Practica4
      */
     public Practica4() {
+        this.setTitle("MostrarRuta");
         initComponents();
     }
 

@@ -12,6 +12,7 @@ public class Practica8 extends javax.swing.JFrame {
     String operacion;
 
     public Practica8() {
+        this.setTitle("Calculadora");
         initComponents();
         this.setLocationRelativeTo(null);
     }
@@ -51,7 +52,7 @@ public class Practica8 extends javax.swing.JFrame {
         jlresult.setForeground(new java.awt.Color(0, 0, 0));
         jlresult.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
 
-        jbclr.setBackground(new java.awt.Color(51, 51, 51));
+        jbclr.setBackground(new java.awt.Color(255, 153, 0));
         jbclr.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jbclr.setForeground(new java.awt.Color(255, 255, 255));
         jbclr.setText("C");
@@ -63,7 +64,7 @@ public class Practica8 extends javax.swing.JFrame {
             }
         });
 
-        jbmod.setBackground(new java.awt.Color(51, 51, 51));
+        jbmod.setBackground(new java.awt.Color(255, 153, 0));
         jbmod.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jbmod.setForeground(new java.awt.Color(255, 255, 255));
         jbmod.setText("%");
@@ -75,7 +76,7 @@ public class Practica8 extends javax.swing.JFrame {
             }
         });
 
-        jbdiv.setBackground(new java.awt.Color(51, 51, 51));
+        jbdiv.setBackground(new java.awt.Color(255, 153, 0));
         jbdiv.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         jbdiv.setForeground(new java.awt.Color(255, 255, 255));
         jbdiv.setText("÷");

@@ -15,6 +15,7 @@ public class MyFrame extends JFrame {
     JButton button;
     MyFrame() {
         this.setSize(640, 480);
+        this.setTitle("Practica: MyFrame");
         button = new JButton("Cerrar");
         MyListener Listener = new MyListener();
         button.addActionListener(Listener);
